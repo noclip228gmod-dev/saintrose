@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Saint-Rose · Garry's Mod</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0b12;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            color: #e0dff0;
+            line-height: 1.55;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 40% 30%, rgba(200,130,180,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(180,100,160,0.06) 0%, transparent 60%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path d="M0 0 L60 0 L60 60 L0 60 Z" fill="none" stroke="rgba(255,200,230,0.02)" stroke-width="0.5"/></svg>');
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: rgba(16,10,22,0.94);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(220,140,200,0.25);
+            padding: 1.1rem 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            box-shadow: 0 6px 26px rgba(0,0,0,0.75);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6b1d4a, #b84a8c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 0 28px rgba(220,100,170,0.6);
+            color: #ffe0f0;
+            font-weight: 700;
+            text-shadow: 0 0 14px #ffb0e0;
+        }
+
+        .brand-text h1 {
+            font-size: 1.95rem;
+            font-weight: 750;
+            background: linear-gradient(135deg, #ffd0ec, #e090c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1.4px;
+            text-shadow: 0 0 16px #d060a0;
+        }
+
+        .brand-text span {
+            font-size: 0.72rem;
+            color: #c0a0b8;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-top: -3px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2.3rem;
+        }
+
+        .nav a {
+            color: #d0bcc8;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid transparent;
+            transition: 0.25s;
+        }
+
+        .nav a:hover {
+            color: #ffffff;
+            border-bottom-color: #e870b0;
+            text-shadow: 0 0 14px #e060a8;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background: rgba(120,40,90,0.35);
+            border: 1px solid rgba(220,120,180,0.55);
+            color: #ffe8f4;
+            padding: 0.55rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 550;
+            backdrop-filter: blur(8px);
+            transition: 0.25s;
+            font-size: 0.88rem;
+        }
+
+        .btn-accent {
+            background: #a82d70;
+            border-color: #e878b8;
+            box-shadow: 0 0 20px #c04088;
+        }
+
+        .btn-accent:hover, .btn:hover {
+            background: #c84890;
+            border-color: #f0a0d0;
+            box-shadow: 0 0 28px #d068a8;
+        }
+
+        .btn-steam {
+            background: #1a1d2e;
+            border: 1px solid #5a7d9a;
+            color: #c0daf0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-steam:hover {
+            background: #1f3850;
+            border-color: #7ab0d8;
+            box-shadow: 0 0 18px #3a6088;
+        }
+
+        .steam-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(140deg, #6b1d48, #c86098);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 18px #d060a0;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .username {
+            color: #f0c8e0;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(105deg, rgba(20,8,20,0.92) 30%, rgba(40,18,40,0.88) 100%);
+            backdrop-filter: blur(6px);
+            padding: 3.5rem 2.5rem;
+            margin: 2rem 2rem 1.8rem;
+            border-radius: 3rem;
+            border: 1px solid rgba(240,140,200,0.35);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7), inset 0 0 60px rgba(200,80,150,0.1);
+        }
+
+        .hero-info h2 {
+            font-size: 2.8rem;
+            font-weight: 750;
+            background: linear-gradient(135deg, #ffd0ec, #e890c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .hero-meta {
+            color: #c8a0b8;
+            margin: 0.8rem 0 1.6rem;
+            font-size: 1.05rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 0.5rem 2rem 2rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            flex: 0 0 260px;
+            background: rgba(18,10,22,0.82);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2.2rem;
+            padding: 1.6rem 1.2rem;
+            height: fit-content;
+            position: sticky;
+            top: 7rem;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.65);
+        }
+
+        .sidebar h3 {
+            color: #e8b8d8;
+            margin-bottom: 1.1rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .welcome-msg {
+            background: #140a18;
+            border-radius: 1.6rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #6b3860;
+            color: #d8a8c8;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .cat-list {
+            list-style: none;
+        }
+
+        .cat-list li {
+            padding: 0.75rem 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            color: #c0a0b8;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .cat-list li:hover, .cat-list li.active {
+            background: #6b2850;
+            color: #fce8f4;
+        }
+
+        /* CONTENT */
+        .content {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .info-panel {
+            background: rgba(14,8,18,0.82);
+            backdrop-filter: blur(18px);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            border: 1px solid rgba(220,120,180,0.3);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: space-between;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f0b8d8;
+        }
+
+        .forum-block {
+            background: rgba(10,6,16,0.78);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .thread {
+            background: rgba(40,18,40,0.65);
+            padding: 1rem 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: 0.2s;
+        }
+
+        .thread:hover {
+            background: #5c2850;
+        }
+
+        .thread-emoji {
+            font-size: 1.8rem;
+        }
+
+        .thread-details {
+            flex: 1;
+        }
+
+        .thread-name {
+            font-weight: 650;
+            color: #f8d8f0;
+        }
+
+        .thread-stats {
+            font-size: 0.72rem;
+            color: #b890a8;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .badge-tag {
+            background: #882860;
+            font-size: 0.68rem;
+            padding: 0.15rem 0.8rem;
+            border-radius: 2rem;
+            color: #f8d8f0;
+            cursor: pointer;
+        }
+
+        /* ===== STEAM MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: rgba(20,12,28,0.98);
+            border: 1px solid rgba(220,140,200,0.5);
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(200,80,150,0.3);
+        }
+
+        .modal h3 {
+            color: #f0c8e0;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .modal .steam-btn-large {
+            background: #1a1d2e;
+            border: 2px solid #5a7d9a;
+            color: #c0daf0;
+            padding: 1rem 2.5rem;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: 0.25s;
+        }
+
+        .modal .steam-btn-large:hover {
+            background: #1f3850;
+            border-color: #7ab0d8;
+            box-shadow: 0 0 24px #3a6088;
+        }
+
+        .modal .close-modal {
+            margin-top: 1.2rem;
+            background: none;
+            border: none;
+            color: #a888a0;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.4rem;
+            color: #806878;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        @media (max-width: 750px) {
+            .container { flex-direction: column; }
+            .sidebar { position: static; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">🌹</div>
+            <div class="brand-text">
+                <h1>SAINT-ROSE</h1>
+                <span>GARRY'S MOD · ROLEPLAY</span>
+            </div>
+        </div>
+        <div class="nav">
+            <a href="#">ГЛАВНАЯ</a>
+            <a href="#">ФОРУМ</a>
+            <a href="#">ПРАВИЛА</a>
+            <a href="#">МАГАЗИН</a>
+            <a href="#">БАНЛИСТ</a>
+        </div>
+        <div class="header-actions" id="authArea">
+            <!-- Гость -->
+            <button class="btn btn-steam" id="loginBtn" onclick="openSteamModal()">
+                <svg class="steam-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1.5-5.5l-3.8-2.75c-.4-.3-.5-.8-.3-1.2.3-.4.8-.5 1.2-.3l3.8 2.75c.4.3.5.8.3 1.2-.3.4-.8.5-1.2.3zm2.5-3.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                ВОЙТИ ЧЕРЕЗ STEAM
+            </button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-info">
+            <h2>SAINT-ROSE</h2>
+            <div class="hero-meta">
+                <span>🌆 Roleplay</span>
+                <span>⭐ Сезон 3</span>
+                <span>⚡ 18+</span>
+            </div>
+        </div>
+        <button class="btn" style="font-size:1.2rem; padding:0.8rem 2.2rem;">НАЧАТЬ ИГРАТЬ</button>
+    </section>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📋 НАВИГАЦИЯ</h3>
+            <div class="welcome-msg" id="sidebarWelcome">
+                🔒 Войдите через Steam для доступа
+            </div>
+            <ul class="cat-list">
+                <li class="active">📢 Новости</li>
+                <li>💬 Общий</li>
+                <li>🎥 Медиа</li>
+                <li>⚖️ Жалобы</li>
+                <li>💡 Предложения</li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <div class="info-panel">
+                <div class="stat"><div class="stat-value">—</div>Игроков всего</div>
+                <div class="stat"><div class="stat-value">—</div>В сети</div>
+                <div class="stat"><div class="stat-value">—</div>Рейтинг</div>
+                <div class="stat"><div class="stat-value">Roleplay</div>Режим</div>
+            </div>
+
+            <div class="forum-block">
+                <div class="section-head">
+                    <strong>📌 ПОСЛЕДНИЕ ТЕМЫ</strong>
+                    <span class="badge-tag">+ Создать</span>
+                </div>
+                <div class="thread">
+                    <div class="thread-emoji">📢</div>
+                    <div class="thread-details">
+                        <div class="thread-name">Открытие сезона — обновление правил сервера</div>
+                        <div class="thread-stats"><span>👤 HeadAdmin</span><span>📅 14.06.2026</span><span>💬 89</span></div>
+                    </div>
+                </div>
+                <div class="thread">
+                    <div class="thread-emoji">👥</div>
+                    <div class="thread-details">
+                        <div class="thread-name">Набор в администрацию Saint-Rose</div>
+                        <div class="thread-stats"><span>👤 Mayor_Kane</span><span>📅 12.06.2026</span><span>💬 34</span></div>
+                    </div>
+                </div>
+                <div class="thread">
+                    <div class="thread-emoji">🏙️</div>
+                    <div class="thread-details">
+                        <div class="thread-name">Открытие клуба «Rose Noir» — вакансии</div>
+                        <div class="thread-stats"><span>👤 Lila_Voss</span><span>📅 10.06.2026</span><span>💬 56</span></div>
+                    </div>
+                </div>
+                <div class="thread">
+                    <div class="thread-emoji">⚖️</div>
+                    <div class="thread-details">
+                        <div class="thread-name">Обсуждение RP-ситуаций и кейсов</div>
+                        <div class="thread-stats"><span>👤 Judge_Black</span><span>📅 08.06.2026</span><span>💬 28</span></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        © 2026 Saint-Rose · Garry's Mod Roleplay
+    </footer>
+</div>
+
+<!-- STEAM AUTH MODAL -->
+<div class="modal-overlay" id="steamModal">
+    <div class="modal">
+        <h3>🔐 Авторизация через Steam</h3>
+        <p style="color:#b898a8; margin-bottom:1.5rem; font-size:0.9rem;">
+            Используется безопасный вход через Steam OpenID.<br>Сайт не получает ваш пароль.
+        </p>
+        <button class="steam-btn-large" onclick="simulateSteamLogin()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1.5-5.5l-3.8-2.75c-.4-.3-.5-.8-.3-1.2.3-.4.8-.5 1.2-.3l3.8 2.75c.4.3.5.8.3 1.2-.3.4-.8.5-1.2.3zm2.5-3.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            ВОЙТИ ЧЕРЕЗ STEAM
+        </button>
+        <br>
+        <button class="close-modal" onclick="closeSteamModal()">Отмена</button>
+    </div>
+</div>
+
+<script>
+    let isLoggedIn = false;
+    let currentUser = null;
+
+    function openSteamModal() {
+        if (isLoggedIn) return;
+        document.getElementById('steamModal').classList.add('active');
+    }
+
+    function closeSteamModal() {
+        document.getElementById('steamModal').classList.remove('active');
+    }
+
+    function simulateSteamLogin() {
+        // Эмуляция успешной авторизации через Steam OpenID
+        // В реальном проекте здесь редирект на /auth/steam на бэкенде
+        const steamUsers = [
+            { steamid: '76561198000000001', personaname: 'RoseMaster', avatar: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg' },
+            { steamid: '76561198000000002', personaname: 'xX_Shadow_Xx', avatar: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg' },
+            { steamid: '76561198000000003', personaname: 'SaintPlayer', avatar: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg' }
+        ];
+
+        currentUser = steamUsers[Math.floor(Math.random() * steamUsers.length)];
+        isLoggedIn = true;
+        closeSteamModal();
+        updateUIForLoggedInUser();
+    }
+
+    function updateUIForLoggedInUser() {
+        const authArea = document.getElementById('authArea');
+        authArea.innerHTML = `
+            <div class="user-menu">
+                <img src="${currentUser.avatar}" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" alt="avatar">
+                <span class="username">${currentUser.personaname}</span>
+                <button class="btn" style="padding:0.4rem 1rem;font-size:0.75rem;" onclick="logout()">Выйти</button>
+            </div>
+        `;
+
+        document.getElementById('sidebarWelcome').innerHTML = `
+            👋 Привет, <strong>${currentUser.personaname}</strong>!
+            <br><small style="color:#a87898;">Steam ID: ${currentUser.steamid}</small>
+        `;
+
+        document.querySelector('.stat:nth-child(1) .stat-value').textContent = '1,642';
+        document.querySelector('.stat:nth-child(2) .stat-value').textContent = '42';
+        document.querySelector('.stat:nth-child(3) .stat-value').textContent = '4.9';
+    }
+
+    function logout() {
+        isLoggedIn = false;
+        currentUser = null;
+        document.getElementById('authArea').innerHTML = `
+            <button class="btn btn-steam" id="loginBtn" onclick="openSteamModal()">
+                <svg class="steam-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1.5-5.5l-3.8-2.75c-.4-.3-.5-.8-.3-1.2.3-.4.8-.5 1.2-.3l3.8 2.75c.4.3.5.8.3 1.2-.3.4-.8.5-1.2.3zm2.5-3.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                ВОЙТИ ЧЕРЕЗ STEAM
+            </button>
+        `;
+        document.getElementById('sidebarWelcome').innerHTML = '🔒 Войдите через Steam для доступа';
+        document.querySelector('.stat:nth-child(1) .stat-value').textContent = '—';
+        document.querySelector('.stat:nth-child(2) .stat-value').textContent = '—';
+        document.querySelector('.stat:nth-child(3) .stat-value').textContent = '—';
+    }
+
+    // Закрытие модалки по клику на оверлей
+    document.getElementById('steamModal').addEventListener('click', function(e) {
+        if (e.target === this) closeSteamModal();
+    });
+</script>
+</body>
+</html>
